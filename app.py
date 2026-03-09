@@ -1,126 +1,155 @@
 import streamlit as st
 import random
 
-# --- CONFIGURACIÓN ---
+# --- CONFIGURACIÓN DE LA PÁGINA ---
 st.set_page_config(page_title="MI GUÍA UNAM 2026", page_icon="🎓", layout="wide")
+
+# Estilos CSS para que se vea profesional y sea fácil de leer
+st.markdown("""
+    <style>
+    .main { background-color: #f9f9f9; }
+    .stTabs [data-baseweb="tab-list"] { gap: 10px; }
+    .stTabs [data-baseweb="tab"] { 
+        background-color: #e1e4e8; 
+        border-radius: 5px 5px 0 0; 
+        padding: 10px 20px;
+    }
+    .stTabs [aria-selected="true"] { 
+        background-color: #004b8d !important; 
+        color: white !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
 st.title("🎓 MI GUÍA DE ESTUDIO UNAM 2026")
 st.subheader("Área 1: Ciencias Físico-Matemáticas y de las Ingenierías")
-st.markdown("---")
+st.divider()
 
-# --- MENÚ LATERAL ---
-st.sidebar.header("📌 Navegación del Temario")
-materia = st.sidebar.selectbox("Selecciona Materia:", ["Español", "Matemáticas", "Física"])
+# --- NAVEGACIÓN LATERAL ---
+st.sidebar.header("📂 CONTENIDO")
+materia = st.sidebar.selectbox("Materia", ["Español", "Matemáticas", "Física"])
 
 if materia == "Español":
-    # Aquí es donde registramos los temas que existen
-    tema = st.sidebar.selectbox("Selecciona Unidad:", [
+    # PASO A: Aquí es donde se enlistan las unidades
+    tema = st.sidebar.selectbox("Unidad", [
         "1. Funciones de la lengua", 
         "2. Formas del discurso", 
         "3. Comprensión de lectura",
         "4. Gramática",
-        "5. Redacción"
+        "5. Redacción","6. Vocabulario"
     ])
 
-    # Pestañas Universales
-    tab1, tab2, tab3, tab4 = st.tabs(["📖 Teoría Detallada", "🗂️ Flashcards", "📝 Banco de Preguntas", "🎥 Recursos"])
+    # Creación de las pestañas
+    tab1, tab2, tab3, tab4, tab5 = st.tabs([
+        "📖 Teoría", "🌿 Mapa Conceptual", "🗂️ Flashcards", "📝 Banco de Preguntas", "🎥 Videos"
+    ])
 
     # =========================================================
-    # BLOQUE TEMA 1: FUNCIONES DE LA LENGUA
+    # UNIDAD 1: FUNCIONES DE LA LENGUA
     # =========================================================
     if tema == "1. Funciones de la lengua":
         with tab1:
             st.header("1. Funciones de la lengua")
-            st.markdown("""
-            * **1.1 Referencial:** Su intención es **informar** hechos, datos y conceptos de manera objetiva. Se centra en el mensaje y el contexto. Común en noticias y textos científicos.
-                * *Ejemplo:* "La Ciudad de México se fundó en 1325."
-            * **1.2 Apelativa (Conativa):** Busca **convencer o influir** en la conducta del receptor. Se manifiesta en órdenes, peticiones o publicidad.
-                * *Ejemplo:* "¡Haz tu tarea ahora!" o "Vota por el progreso."
-            * **1.3 Poética:** Su fin es **estético**. Se utiliza para embellecer el mensaje mediante figuras retóricas (metáforas, rimas).
-                * *Ejemplo:* "El tiempo es oro."
-            """)
+            st.write("**Definición:** Son los diferentes objetivos, propósitos y servicios que se le dan al lenguaje al comunicarse.")
+            
+            st.markdown("### 1.1 Función Referencial")
+            st.write("Su intención es **informar** hechos, datos o conceptos de manera objetiva. Evita opiniones personales.")
+            st.success("**Ejemplo:** 'La fórmula del agua es H2O' o 'El examen de la UNAM es en mayo'.")
+            
+            st.markdown("### 1.2 Función Apelativa")
+            st.write("Busca **convencer o persuadir** al receptor para que piense o actúe de una manera determinada.")
+            st.success("**Ejemplo:** '¡Compra este libro ahora!' o '¿Podrías cerrar la ventana?'.")
+            
+            st.markdown("### 1.3 Función Poética")
+            st.write("Busca **belleza o armonía** en el mensaje. No importa solo qué se dice, sino cómo se dice (refranes, poesía, literatura).")
+            st.success("**Ejemplo:** 'Tus ojos son luceros' o 'Camarón que se duerme, se lo lleva la corriente'.")
+            
         with tab2:
-            st.subheader("Flashcards T1")
+            st.subheader("Mapa Conceptual: Funciones")
+            st.graphviz_chart('''
+                digraph {
+                    "Funciones de la lengua" -> "Referencial (Informa)"
+                    "Funciones de la lengua" -> "Apelativa (Persuade)"
+                    "Funciones de la lengua" -> "Poética (Belleza)"
+                }
+            ''')
+
+        with tab3:
+            st.subheader("Flashcards (Barajar para estudiar)")
             if 'fc1' not in st.session_state:
                 st.session_state.fc1 = [
-                    {"Q": "¿Qué función busca convencer?", "A": "Apelativa"},
-                    {"Q": "¿Qué función es objetiva e informativa?", "A": "Referencial"},
-                    {"Q": "¿Qué función usa figuras retóricas?", "A": "Poética"}
+                    {"Q": "¿Qué función predomina en una noticia?", "A": "Referencial"},
+                    {"Q": "¿Qué función busca una reacción en el oyente?", "A": "Apelativa"},
+                    {"Q": "¿Qué función usa figuras literarias?", "A": "Poética"}
                 ]
-            if st.button("🔀 Mezclar T1"): random.shuffle(st.session_state.fc1)
-            for i, f in enumerate(st.session_state.fc1):
-                with st.expander(f"Tarjeta {i+1}"): st.write(f['Q']); st.success(f['A'])
-        with tab3:
-            st.radio("¿Qué función predomina en una enciclopedia?", ["...", "Poética", "Referencial", "Apelativa"], key="q1")
+            if st.button("🔀 Mezclar Orden"): random.shuffle(st.session_state.fc1)
+            for f in st.session_state.fc1:
+                with st.expander(f["Q"]): st.info(f["A"])
+
+        with tab4:
+            st.subheader("Banco de Preguntas")
+            p1 = st.radio("1. Identifica la función: '¡No tires basura!'", ["Selecciona...", "Poética", "Referencial", "Apelativa"])
+            if p1 == "Apelativa": st.success("Correcto: Es una orden/petición.")
 
     # =========================================================
-    # BLOQUE TEMA 2: FORMAS DEL DISCURSO
+    # UNIDAD 2: FORMAS DEL DISCURSO
     # =========================================================
     elif tema == "2. Formas del discurso":
         with tab1:
             st.header("2. Formas del discurso")
             st.markdown("""
-            * **2.1 Descriptivo:** Dice *cómo es* algo o alguien. Usa abundantes adjetivos para detallar características físicas o psicológicas.
-                * *Ejemplo:* "Era un edificio alto, gris y con ventanas rotas."
-            * **2.2 Narrativo:** Relata *qué pasa*. Se estructura en una secuencia temporal con verbos de acción. (Cuentos, noticias).
-                * *Ejemplo:* "Abrió la puerta, miró el reloj y salió corriendo."
-            * **2.3 Argumentativo:** Intenta *demostrar o convencer* sobre una idea (tesis) usando argumentos lógicos.
-                * *Ejemplo:* "Es necesario reciclar porque reduce la contaminación global."
+            **2.1 Descriptivo:** Describe cualidades o características. Usa muchos adjetivos. Es una 'pintura verbal'.
+            **2.2 Narrativo:** Relata acciones en orden cronológico. Usa verbos de acción.
+            **2.3 Argumentativo:** Expone razones para defender una tesis o convencer al lector.
             """)
-        with tab2:
-            if 'fc2' not in st.session_state:
-                st.session_state.fc2 = [{"Q": "¿Usa adjetivos?", "A": "Descriptivo"}, {"Q": "¿Usa verbos de acción?", "A": "Narrativo"}]
-            if st.button("🔀 Mezclar T2"): random.shuffle(st.session_state.fc2)
-            for i, f in enumerate(st.session_state.fc2):
-                with st.expander(f"Tarjeta {i+1}"): st.write(f['Q']); st.success(f['A'])
+            st.info("**Bibliografía sugerida:** Gramática Española, Real Academia Española.")
+        with tab3:
+            st.write("Flashcards listas para estudiar formas del discurso.")
 
     # =========================================================
-    # BLOQUE TEMA 3: COMPRENSIÓN DE LECTURA
+    # UNIDAD 3: COMPRENSIÓN DE LECTURA
     # =========================================================
     elif tema == "3. Comprensión de lectura":
         with tab1:
             st.header("3. Comprensión de lectura")
             st.markdown("""
-            **3.1 Estructura del texto:**
-            * **Introducción:** Presenta el tema y la tesis.
-            * **Desarrollo:** Expone argumentos, ejemplos e ideas secundarias.
-            * **Conclusión:** Resumen final o cierre de la idea principal.
-            
-            **3.4 Inferencia de datos:**
-            Es deducir información implícita (no escrita) a partir de pistas.
-            * *Pista:* "Llevaba abrigo y bufanda". *Inferencia:* Hace frío.
+            **3.1 Estructura:** Introducción (Tesis), Desarrollo (Argumentos), Conclusión (Resumen).
+            **3.4 Inferencia:** Deducir información no escrita (implícita).
             """)
 
     # =========================================================
-    # BLOQUE TEMA 4: GRAMÁTICA
+    # UNIDAD 4: GRAMÁTICA
     # =========================================================
     elif tema == "4. Gramática":
         with tab1:
-            st.header("4. Gramática: Sujeto y Predicado")
+            st.header("4. Gramática")
             st.markdown("""
-            * **4.2 Sujeto Explícito:** Aparece escrito. "Los alumnos estudian".
-            * **4.2 Sujeto Tácito:** Se deduce por el verbo. "Estudiamos" (Nosotros).
-            * **4.3 Predicado Nominal:** Usa verbos copulativos (Ser, Estar, Parecer). "Ella **es** inteligente".
-            * **4.3 Predicado Verbal:** Usa verbos de acción. "Ella **corre** mucho".
+            * **Sujeto Expreso:** Está escrito.
+            * **Sujeto Tácito:** Se entiende por el verbo.
+            * **Predicado Nominal:** Verbos copulativos (ser, estar, parecer).
             """)
-        with tab3:
-            st.radio("Sujeto en: 'Ayer Juan compró pan'", ["...", "Ayer", "Juan", "Pan"], key="q4")
 
     # =========================================================
-    # BLOQUE TEMA 5: REDACCIÓN
+    # UNIDAD 5: REDACCIÓN
     # =========================================================
     elif tema == "5. Redacción":
         with tab1:
-            st.header("5. Redacción: Nexos y Marcadores")
-            st.markdown("""
-            Los nexos unen ideas y dan coherencia:
-            * **Causales:** Explicación (porque, puesto que).
-            * **Adversativos:** Oposición (pero, sin embargo, no obstante).
-            * **Consecutivos:** Resultado (por lo tanto, así que).
-            * **Aditivos:** Suma (además, asimismo).
-            """)
-        with tab3:
-            st.radio("Nexo de oposición:", ["...", "Porque", "Pero", "Además"], key="q5")
+            st.header("5. Redacción")
+            st.write("El uso de nexos (pero, aunque, porque) es fundamental para la coherencia.")
 
+# --- MENSAJE DE ESPERA ---
 else:
-    st.info("🚧 Selecciona un tema para cargar el contenido detallado.")
+    st.info("🚧 Selecciona una materia y unidad para ver el contenido completo.")
+# =========================================================
+# UNIDAD 6: VOCABULARIO (BLOQUE MANUAL)
+# =========================================================
+elif tema == "6. Vocabulario":
+    with tab1:
+        st.header("6. Vocabulario")
+        st.write("Aquí va la teoría de Antónimos y Homófonos...")
+    with tab2:
+        st.write("Aquí diseñas el mapa conceptual...")
+    with tab3:
+        st.write("Aquí pegas las 10 flashcards...")
+    with tab4:
+        st.write("Aquí pones las 10 preguntas...")
