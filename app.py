@@ -37,7 +37,7 @@ if materia == "Español":
         "3. Comprensión de lectura",
         "4. Gramática",
         "5. Redacción",
-        "6. Vocabulario"
+        "6. Vocabulario",
     ])
 
     # Creación de las pestañas
