@@ -1,126 +1,122 @@
 import streamlit as st
 import random
 
-# Configuración de la página
-st.set_page_config(page_title="Mi Guía UNAM 2026", page_icon="🎓", layout="wide")
+# --- CONFIGURACIÓN Y ESTILOS ---
+st.set_page_config(page_title="MI GUÍA UNAM 2026", page_icon="🎓", layout="wide")
 
 st.title("🎓 MI GUÍA DE ESTUDIO UNAM 2026 - Área 1")
 st.markdown("---")
 
-# Menú lateral
-st.sidebar.header("📚 Temario")
+# --- MENÚ LATERAL ---
+st.sidebar.header("📚 Temario Oficial")
 materia = st.sidebar.selectbox("Selecciona la materia:", ["Español", "Matemáticas", "Física"])
 
 if materia == "Español":
-    # Agregamos el Tema 4 a la lista
     tema = st.sidebar.selectbox("Selecciona el tema:", [
         "1. Funciones de la lengua", 
         "2. Formas del discurso", 
         "3. Comprensión de lectura",
-        "4. Gramática"
+        "4. Gramática",
+        "5. Redacción"
     ])
     
+    # Pestañas globales
+    tab1, tab2, tab3, tab4 = st.tabs(["📖 Teoría", "🗂️ Flashcards", "📝 Quiz", "🎥 Recursos"])
+
     # ---------------------------------------------------------
-    # TEMAS ANTERIORES (Simplificados para navegación)
+    # CONTENIDO TEMA 1
     # ---------------------------------------------------------
     if tema == "1. Funciones de la lengua":
-        st.header("1. Funciones de la lengua")
-        st.info("Repasa: Referencial, Apelativa y Poética.")
-    elif tema == "2. Formas del discurso":
-        st.header("2. Formas del discurso")
-        st.info("Repasa: Descriptivo, Narrativo y Argumentativo.")
-    elif tema == "3. Comprensión de lectura":
-        st.header("3. Comprensión de lectura")
-        st.info("Repasa: Estructura del texto e Inferencia.")
+        with tab1:
+            st.subheader("1. Funciones de la lengua")
+            st.markdown("""
+            * **Referencial:** Informar objetivamente. (Noticias, ciencia).
+            * **Apelativa:** Convencer o persuadir. (Publicidad, órdenes).
+            * **Poética:** Estética y belleza. (Literatura, refranes).
+            """)
+        with tab3:
+            st.radio("¿Qué función predomina en un manual técnico?", ["Selecciona...", "Apelativa", "Referencial", "Poética"], key="q1")
 
     # ---------------------------------------------------------
-    # TEMA 4: GRAMÁTICA (NUEVO)
+    # CONTENIDO TEMA 2
+    # ---------------------------------------------------------
+    elif tema == "2. Formas del discurso":
+        with tab1:
+            st.subheader("2. Formas del discurso")
+            st.markdown("""
+            * **Descriptivo:** Dice cómo es algo (adjetivos).
+            * **Narrativo:** Cuenta hechos (verbos/tiempo).
+            * **Argumentativo:** Defiende una tesis (opinión/lógica).
+            """)
+        with tab2:
+            if st.button("🔀 Barajar"): random.shuffle(st.session_state.get('fc2', []))
+            st.write("Usa el botón para practicar.")
+
+    # ---------------------------------------------------------
+    # CONTENIDO TEMA 3
+    # ---------------------------------------------------------
+    elif tema == "3. Comprensión de lectura":
+        with tab1:
+            st.subheader("3. Comprensión de lectura")
+            st.markdown("Enfócate en la **Inferencia** (deducir lo que no está escrito) y la **Estructura** (Intro, Desarrollo, Conclusión).")
+
+    # ---------------------------------------------------------
+    # CONTENIDO TEMA 4
     # ---------------------------------------------------------
     elif tema == "4. Gramática":
-        st.header("4. Gramática: La Oración, Sujeto y Predicado")
-        
-        tab1, tab2, tab3, tab4 = st.tabs(["📖 Teoría", "🗂️ Flashcards", "📝 Quiz", "🎥 Recursos"])
-        
         with tab1:
-            st.subheader("Resumen Teórico")
+            st.subheader("4. Gramática")
             st.markdown("""
-            **4.1 La Oración**
-            Es la unidad mínima de lenguaje con sentido completo. Se divide principalmente en Sujeto y Predicado.
-
-            **4.2 Uso del Sujeto**
-            Es quien realiza la acción del verbo o de quien se dice algo.
-            * **Sujeto Explícito (Expreso):** Aparece escrito en la oración. 
-                * *Ej:* "**El átomo** es la unidad básica."
-            * **Sujeto Tácito (Morfológico/Implícito):** No está escrito, pero se sobreentiende por la terminación del verbo.
-                * *Ej:* "Estudiamos para el examen." (Sujeto: Nosotros).
-
-            **4.3 Uso del Predicado**
-            Es lo que se dice del sujeto. Su núcleo siempre es un **verbo conjugado**.
-            * **Predicado Nominal:** Usa verbos copulativos (ser, estar, parecer). Atribuye una cualidad al sujeto.
-                * *Ej:* "La física **es fascinante**."
-            * **Predicado Verbal:** Usa verbos de acción.
-                * *Ej:* "La luz **viaja en el vacío**."
+            * **Sujeto Expreso:** Escrito.
+            * **Sujeto Tácito:** Se entiende por el verbo.
+            * **Predicado Nominal:** Verbos *ser, estar, parecer*.
             """)
-            
-            st.markdown("### Mapa de la Estructura")
-            st.code("""
-            ORACIÓN BIMEMBRE
-            ├── SUJETO (¿Quién?)
-            │    └── Núcleo: Sustantivo o Pronombre
-            └── PREDICADO (¿Qué hace / Qué es?)
-                 └── Núcleo: Verbo Conjugado
+
+    # ---------------------------------------------------------
+    # CONTENIDO TEMA 5: REDACCIÓN (NUEVO)
+    # ---------------------------------------------------------
+    elif tema == "5. Redacción":
+        with tab1:
+            st.subheader("5. Redacción: Nexos y Expresiones")
+            st.markdown("""
+            La redacción en el examen UNAM se evalúa mediante el uso de **conectores o nexos**. Estos ayudan a que el texto tenga coherencia.
+
+            **Principales Nexos que debes conocer:**
+            1.  **Causales:** Indican causa (porque, ya que, debido a).
+            2.  **Consecutivos:** Indican consecuencia (por tanto, en consecuencia, así que).
+            3.  **Opositivos (Adversativos):** Indican contraste (pero, sin embargo, no obstante).
+            4.  **Aditivos:** Agregan información (además, asimismo, también).
+
+            **Puntuación Básica:**
+            * La **coma (,)** separa elementos de una lista o incisos.
+            * El **punto y coma (;)** separa oraciones largas que ya tienen comas.
             """)
+            st.info("💡 Tip: Si ves un 'pero' o un 'sin embargo', la pregunta suele tratar sobre el contraste de ideas.")
 
         with tab2:
-            st.subheader("🔀 Flashcards de Gramática")
-            if 'flashcards_t4' not in st.session_state:
-                st.session_state.flashcards_t4 = [
-                    {"Q": "¿Qué es el sujeto tácito?", "A": "Aquel que no está escrito pero se infiere por la conjugación del verbo."},
-                    {"Q": "¿Cuál es el núcleo del sujeto?", "A": "Un sustantivo o un pronombre."},
-                    {"Q": "¿Cuál es el núcleo del predicado?", "A": "Un verbo conjugado."},
-                    {"Q": "¿Qué verbos caracterizan al predicado nominal?", "A": "Ser, estar o parecer (verbos copulativos)."},
-                    {"Q": "En 'Corrimos por el parque', ¿cuál es el sujeto?", "A": "Sujeto tácito: Nosotros."},
-                    {"Q": "En 'La gravedad es una fuerza', ¿qué tipo de predicado hay?", "A": "Predicado nominal (verbo 'es')."},
-                    {"Q": "¿Cuál es el sujeto en: 'A los ingenieros les gusta el cálculo'?", "A": "El cálculo (porque es lo que realiza la acción de gustar)."},
-                    {"Q": "¿Qué es una oración bimembre?", "A": "Aquella que tiene sujeto y predicado claramente definidos."},
-                    {"Q": "¿Cómo se llama el sujeto que sí aparece escrito?", "A": "Sujeto Expreso o Explícito."},
-                    {"Q": "Identifica el núcleo del predicado: 'El sol emite radiación'.", "A": "Emite."}
+            st.subheader("🗂️ Flashcards de Redacción")
+            if 'fc5' not in st.session_state:
+                st.session_state.fc5 = [
+                    {"Q": "¿Qué tipo de nexo es 'sin embargo'?", "A": "Adversativo u Opositivo."},
+                    {"Q": "¿Para qué sirve un nexo causal?", "A": "Para explicar la razón o motivo de algo."},
+                    {"Q": "Ejemplo de nexo consecutivo:", "A": "Por consiguiente, por lo tanto."},
+                    {"Q": "¿Qué nexo usarías para añadir una idea similar?", "A": "Asimismo o Además."},
+                    {"Q": "Función del punto y coma:", "A": "Separar proposiciones estrechamente relacionadas o enumeraciones complejas."}
                 ]
-
-            if st.button("🔀 Barajar Flashcards (Gramática)"):
-                random.shuffle(st.session_state.flashcards_t4)
-
-            for i, fc in enumerate(st.session_state.flashcards_t4[:5]):
-                with st.expander(f"Tarjeta {i+1}: {fc['Q']}"):
-                    st.success(fc['A'])
+            if st.button("🔀 Barajar Flashcards (Redacción)"):
+                random.shuffle(st.session_state.fc5)
+            for i, f in enumerate(st.session_state.fc5[:3]):
+                with st.expander(f"Tarjeta {i+1}"): st.write(f['Q']); st.success(f['A'])
 
         with tab3:
-            st.subheader("Simulador de Preguntas UNAM")
-            
-            p1 = st.radio(
-                "1. Identifica el sujeto en la siguiente oración: 'En el laboratorio de química, realizaron el experimento los alumnos'.",
-                ("Selecciona...", "A) El laboratorio", "B) Realizaron", "C) Los alumnos", "D) El experimento", "E) Química")
-            )
-            if p1 == "C) Los alumnos":
-                st.success("¡Correcto! Aunque esté al final, 'los alumnos' son quienes realizan la acción de realizar.")
-            elif p1 != "Selecciona...":
-                st.error("Incorrecto. Recuerda preguntar al verbo: ¿Quiénes realizaron?")
-
-            st.divider()
-
-            p2 = st.radio(
-                "2. ¿Qué tipo de sujeto tiene la oración: 'Mañana iremos a la biblioteca'?",
-                ("Selecciona...", "A) Expreso", "B) Compuesto", "C) Tácito", "D) Indefinido", "E) Nominal")
-            )
-            if p2 == "C) Tácito":
-                st.success("¡Correcto! El sujeto no está escrito, pero se entiende que es 'Nosotros'.")
-            elif p2 != "Selecciona...":
-                st.error("Incorrecto. Como no ves el pronombre escrito, es morfológico o tácito.")
+            st.subheader("📝 Quiz de Redacción")
+            pr = st.radio("Elige el nexo correcto: 'Estudió mucho para el examen, _______ no logró pasar'.", 
+                          ["Selecciona...", "porque", "además", "sin embargo", "por lo tanto"])
+            if pr == "sin embargo":
+                st.success("¡Correcto! Es un nexo adversativo porque hay un contraste entre estudiar y no pasar.")
 
         with tab4:
-            st.subheader("Recursos de Apoyo")
-            st.markdown("[▶️ YouTube: El Sujeto y el Predicado para el examen UNAM](https://www.youtube.com/results?search_query=sujeto+y+predicado+examen+unam)")
-            st.markdown("[▶️ YouTube: Sujeto Tácito y Expreso](https://www.youtube.com/results?search_query=sujeto+tacito+y+expreso+ejemplos)")
+            st.markdown("[▶️ YouTube: Nexos y Conectores Lógicos](https://www.youtube.com/results?search_query=nexos+y+conectores+examen+unam)")
 
 else:
-    st.info("🚧 Sección de Ciencias en desarrollo.")
+    st.info("🚧 Selecciona una materia y tema para comenzar.")
