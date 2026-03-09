@@ -139,18 +139,64 @@ if materia == "Español":
             st.write("El uso de nexos (pero, aunque, porque) es fundamental para la coherencia.")
 
 # --- MENSAJE DE ESPERA ---
+# =========================================================
+    # UNIDAD 6: VOCABULARIO
+    # =========================================================
+    elif tema == "6. Vocabulario":
+        tab1, tab2, tab3, tab4, tab5 = st.tabs([
+            "📖 Teoría", "🌿 Mapa Conceptual", "🗂️ Flashcards", "📝 Banco de Preguntas", "🎥 Videos"
+        ])
+        
+        with tab1:
+            st.header("6. Vocabulario")
+            st.write("Esta unidad se enfoca en el manejo preciso de las palabras y sus significados.")
+            
+            st.markdown("### 6.3 Antónimos")
+            st.write("Son palabras que tienen significados **opuestos** o contrarios entre sí. Deben pertenecer a la misma categoría gramatical (sustantivo con sustantivo, etc.).")
+            st.info("**Ejemplo:** Efímero ↔ Duradero | Omitir ↔ Mencionar.")
+            
+            st.markdown("### 6.4 Homófonos")
+            st.write("Son palabras que **suenan igual** pero se escriben de forma distinta y tienen significados diferentes.")
+            st.warning("**Ejemplo de examen:** \n* **Bello** (hermoso) / **Vello** (pelo corto).\n* **Valla** (cerca/obstáculo) / **Vaya** (del verbo ir) / **Baya** (fruto).")
+            
+        with tab2:
+            st.subheader("Mapa Conceptual: Relaciones Semánticas")
+            st.graphviz_chart('''
+                digraph {
+                    Vocabulario -> Antónimos
+                    Vocabulario -> Homófonos
+                    Antónimos -> "Significado Opuesto"
+                    Homófonos -> "Sonido Igual"
+                    Homófonos -> "Escritura Diferente"
+                }
+            ''')
+
+        with tab3:
+            st.subheader("Flashcards de Vocabulario")
+            if 'fc6' not in st.session_state:
+                st.session_state.fc6 = [
+                    {"Q": "Antónimo de 'Altruista':", "A": "Egoísta."},
+                    {"Q": "Homófono: ¿'Acerbo' o 'Acervo' para cultura?", "A": "Acervo (con 'v')."},
+                    {"Q": "Antónimo de 'Sapiencia':", "A": "Ignorancia."},
+                    {"Q": "Homófono: ¿'Cocer' o 'Coser' para ropa?", "A": "Coser (con 's')."},
+                    {"Q": "¿Qué es un antónimo directo?", "A": "Palabras que niegan totalmente a la otra (Vivo/Muerto)."}
+                ]
+            if st.button("🔀 Mezclar Vocabulario"): random.shuffle(st.session_state.fc6)
+            for f in st.session_state.fc6[:5]:
+                with st.expander(f["Q"]): st.success(f["A"])
+
+        with tab4:
+            st.subheader("Banco de Preguntas")
+            v1 = st.radio("1. Elige el antónimo de la palabra en mayúsculas: 'Su actitud fue LAUDABLE'.", 
+                          ["Selecciona...", "A) Elogiable", "B) Censurable", "C) Notable", "D) Admirable"])
+            if v1 == "B) Censurable":
+                st.success("¡Correcto! Laudable significa digno de alabanza; lo opuesto es algo digno de crítica o censura.")
+            
+            st.divider()
+            
+            v2 = st.radio("2. Elige la opción que completa correctamente: 'Necesitas ____ la ropa antes de que ____ el agua'.",
+                          ["Selecciona...", "A) coser / cocer", "B) cocer / coser", "C) coser / coser", "D) cocer / cocer"])
+            if v2 == "A) coser / cocer":
+                st.success("¡Correcto! Coser es unir con hilo; Cocer es hervir alimentos.")
 else:
     st.info("🚧 Selecciona una materia y unidad para ver el contenido completo.")
-# =========================================================
-# UNIDAD 6: VOCABULARIO (BLOQUE MANUAL)
-# =========================================================
-elif tema == "6. Vocabulario":
-    with tab1:
-        st.header("6. Vocabulario")
-        st.write("Aquí va la teoría de Antónimos y Homófonos...")
-    with tab2:
-        st.write("Aquí diseñas el mapa conceptual...")
-    with tab3:
-        st.write("Aquí pegas las 10 flashcards...")
-    with tab4:
-        st.write("Aquí pones las 10 preguntas...")
